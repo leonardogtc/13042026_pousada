@@ -13,9 +13,20 @@ class ItemEstoque(models.Model):
     ]
     nome = models.CharField(max_length=100)
     descricao = models.TextField(blank=True, null=True)
-    quantidade_atual = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    quantidade_minima = models.DecimalField(max_digits=10, decimal_places=2, default=5.00)
-    unidade = models.CharField(max_length=10, choices=UNIDADES_MEDIDA, default='un')
+    quantidade_atual = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0.00
+    )
+    quantidade_minima = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=5.00
+    )
+    unidade = models.CharField(
+        max_length=10,
+        choices=UNIDADES_MEDIDA,
+        default='un')
     ultima_atualizacao = models.DateTimeField(auto_now=True)
 
     def __str__(self):

@@ -48,7 +48,10 @@ class Consumo(models.Model):
     data_hora = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.produto.nome} - {self.quantidade} unidades em {self.data_hora.strftime('%Y-%m-%d %H:%M:%S')}"
+        return (
+            f"{self.produto.nome} - {self.quantidade} unidades em "
+            f"{self.data_hora.strftime('%Y-%m-%d %H:%M:%S')}"
+        )
 
     class Meta:
         verbose_name = "Consumo"
