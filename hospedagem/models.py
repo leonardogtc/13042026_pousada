@@ -49,6 +49,8 @@ class Estadia(models.Model):
     hospede_principal = models.ForeignKey(
         Hospede,
         on_delete=models.CASCADE,
+        limit_choices_to={'eh_principal': True},
+        related_name='estadia_principal'
     )
     quarto = models.ForeignKey(
         Quarto,
