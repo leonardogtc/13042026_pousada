@@ -57,6 +57,7 @@ class Estadia(models.Model):
         on_delete=models.CASCADE,
     )
     tipo_hospede = models.CharField(max_length=20, choices=CLASSIFICACAO)
+    data_entrada = models.DateTimeField()
     data_saida_prevista = models.DateTimeField()
     data_saida_real = models.DateTimeField(blank=True, null=True)
 
@@ -67,6 +68,25 @@ class Estadia(models.Model):
         null=True
     )
     comentario = models.TextField(blank=True, null=True)
+    
+    @property
+    def total_diarias(self):
+        # Define qual data usar para o cálculo
+        fim = self.data_saida_real if self.data_saida_real else self.data_saida_prevista
+        # Calcula a diferença em dias
+        diff = fim - self.data_entrada
+        dias = max(diff.days, 1)  # Garante que seja pelo menos 1 dia
+        return dias * self.quarto.preco_diaria
+    
+    @property
+    def total_consumo(self):
+        # Aqui o django faz um JOIN automático com o APP de cozinha
+        todos_consumos = self.consumos.all()
+        return sum(consumo.preco for consumo in todos_consumos)
+    
+    @property
+    def total_pagamento(self):
+        return self.total_diarias + self.total_consumo
 
     def __str__(self):
         return (
